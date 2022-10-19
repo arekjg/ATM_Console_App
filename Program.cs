@@ -83,7 +83,10 @@ public class cardHolder
         void deposit(cardHolder currentUser)
         {
             Console.WriteLine("How much money would you like to deposit: ");
-            double deposit = Double.Parse(Console.ReadLine());              // check for errors with different data types and inputs, figure it out with a loop
+
+            // check for errors with different data types and inputs, figure it out with a loop
+            
+            double deposit = Double.Parse(Console.ReadLine());
             currentUser.setBalance(currentUser.getBalance() + deposit);
             Console.WriteLine("Thank you for your money. Your new balance is: " + currentUser.getBalance());
         }
@@ -91,8 +94,11 @@ public class cardHolder
         void withdraw(cardHolder currentUser)
         {
             Console.WriteLine("How much money would you like to withdraw: ");
-            double withdrawal = Double.Parse(Console.ReadLine());              // check for errors with different data types and inputs, figure it out with a loop
-            // Check if the user ha s enough money
+            
+            // check for errors with different data types and inputs, figure it out with a loop
+            
+            double withdrawal = Double.Parse(Console.ReadLine());
+            // Check if the user has enough money
             if (currentUser.getBalance() < withdrawal)
             {
                 Console.WriteLine("Insufficient balance :(");
@@ -174,3 +180,4 @@ public class cardHolder
 
 // TODO:
 // move database to external file
+// add possibility to add new users
