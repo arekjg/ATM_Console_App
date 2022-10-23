@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using CsvHelper;
+using System.Globalization;
 
 // app based on tutorial from: https://www.youtube.com/watch?v=qBI7Qnz9Zho
 
 public class cardHolder
 {
-    String cardNum;     // card number
-    int pin;            // pin number
-    String firstName;   // first name
-    String lastName;    // last name
-    double balance;     // balance
+    public String cardNum { get; set; }    // card number
+    public int pin { get; set; }           // pin number
+    public String firstName { get; set; }  // first name
+    public String lastName { get; set; }   // last name
+    public double balance { get; set; }    // balance
 
-    public cardHolder(string cardNum, int pin, string firstName, string lastName, double balance)
-    {
-        this.cardNum = cardNum;
-        this.pin = pin;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.balance = balance;
-    }
+    //public cardHolder(string cardNum, int pin, string firstName, string lastName, double balance)
+    //{
+    //    this.cardNum = cardNum;
+    //    this.pin = pin;
+    //    this.firstName = firstName;
+    //    this.lastName = lastName;
+    //    this.balance = balance;
+    //}
 
     // getters
     public String getNum()
@@ -84,8 +87,6 @@ public class cardHolder
         {
             Console.WriteLine("How much money would you like to deposit: ");
 
-            // check for errors with different data types and inputs, figure it out with a loop
-            
             double deposit = Double.Parse(Console.ReadLine());
             currentUser.setBalance(currentUser.getBalance() + deposit);
             Console.WriteLine("Thank you for your money. Your new balance is: " + currentUser.getBalance());
@@ -94,8 +95,6 @@ public class cardHolder
         void withdraw(cardHolder currentUser)
         {
             Console.WriteLine("How much money would you like to withdraw: ");
-            
-            // check for errors with different data types and inputs, figure it out with a loop
             
             double withdrawal = Double.Parse(Console.ReadLine());
             // Check if the user has enough money
@@ -115,13 +114,29 @@ public class cardHolder
             Console.WriteLine("Current balance: " + currentUser.getBalance());
         }
 
-        List<cardHolder> cardHolders = new List<cardHolder>();
+        var cardHolders = new List<cardHolder>()
+        {
+            new cardHolder{ cardNum = "4532772818527395", pin = 1234, firstName = "John", lastName = "Griffith", balance = 150.31 },
+            new cardHolder{ cardNum = "8645218942348435", pin = 4321, firstName = "Ashley", lastName = "Jones", balance = 321.13 },
+            new cardHolder{ cardNum = "8726646943484746", pin = 9999, firstName = "Frida", lastName = "Dickerson", balance = 105.59 },
+            new cardHolder{ cardNum = "1388546976325648", pin = 2468, firstName = "Muneeb", lastName = "Harding", balance = 851.84 },
+            new cardHolder{ cardNum = "5135893462349531", pin = 4826, firstName = "Dawn", lastName = "Smith", balance = 54.27 }
+        };
         // database
-        cardHolders.Add(new cardHolder("4532772818527395", 1234, "John", "Griffith", 150.31));
-        cardHolders.Add(new cardHolder("8645218942348435", 4321, "Ashley", "Jones", 321.13));
-        cardHolders.Add(new cardHolder("8726646943484746", 9999, "Frida", "Dickerson", 105.59));
-        cardHolders.Add(new cardHolder("1388546976325648", 2468, "Muneeb", "Harding", 851.84));
-        cardHolders.Add(new cardHolder("5135893462349531", 4826, "Dawn", "Smith", 54.27));
+        //cardHolders.Add(new cardHolder("4532772818527395", 1234, "John", "Griffith", 150.31));
+        //cardHolders.Add(new cardHolder("8645218942348435", 4321, "Ashley", "Jones", 321.13));
+        //cardHolders.Add(new cardHolder("8726646943484746", 9999, "Frida", "Dickerson", 105.59));
+        //cardHolders.Add(new cardHolder("1388546976325648", 2468, "Muneeb", "Harding", 851.84));
+        //cardHolders.Add(new cardHolder("5135893462349531", 4826, "Dawn", "Smith", 54.27));
+
+        // CSV WRITER
+        using (var writer = new StreamWriter("filePersons.csv"))
+        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        {
+            csv.WriteRecords(cardHolders);
+        }
+
+
 
         // Prompt user
         Console.WriteLine("Welcome to SimpleATM");
@@ -181,3 +196,5 @@ public class cardHolder
 // TODO:
 // move database to external file
 // add possibility to add new users
+// change directory of csv file
+// add reading from file
