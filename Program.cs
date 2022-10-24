@@ -16,7 +16,6 @@ public class cardHolder
     }
 
     private String cardNum;
-
     public String CardNum
     {
         get
@@ -30,7 +29,6 @@ public class cardHolder
     }
 
     private int pin;
-
     public int Pin
     {
         get
@@ -44,7 +42,6 @@ public class cardHolder
     }
 
     private String firstName;
-
     public String FirstName
     {
         get
@@ -58,7 +55,6 @@ public class cardHolder
     }
 
     private String lastName;
-
     public String LastName
     {
         get
@@ -72,7 +68,6 @@ public class cardHolder
     }
 
     private double balance;
-
     public double Balance
     {
         get
