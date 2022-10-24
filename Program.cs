@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using CsvHelper;
 using System.Globalization;
 
 public class cardHolder
@@ -16,7 +15,7 @@ public class cardHolder
         Balance = balance;
     }
 
-    private String cardNum;    // card number
+    private String cardNum;
 
     public String CardNum
     {
@@ -30,7 +29,7 @@ public class cardHolder
         }
     }
 
-    private int pin;           // pin number
+    private int pin;
 
     public int Pin
     {
@@ -44,7 +43,7 @@ public class cardHolder
         }
     }
 
-    private String firstName;  // first name
+    private String firstName;
 
     public String FirstName
     {
@@ -58,7 +57,7 @@ public class cardHolder
         }
     }
 
-    private String lastName;   // last name
+    private String lastName;
 
     public String LastName
     {
@@ -72,7 +71,7 @@ public class cardHolder
         }
     }
 
-    private double balance;    // balance
+    private double balance;
 
     public double Balance
     {
@@ -131,18 +130,15 @@ public class cardHolder
         // List of card holders
         var cardHolders = new List<cardHolder>();
 
-        // Database
-        cardHolders.Add(new cardHolder("4532772818527395", 1234, "John", "Griffith", 150.31));
-        cardHolders.Add(new cardHolder("8645218942348435", 4321, "Ashley", "Jones", 321.13));
-        cardHolders.Add(new cardHolder("8726646943484746", 9999, "Frida", "Dickerson", 105.59));
-        cardHolders.Add(new cardHolder("1388546976325648", 2468, "Muneeb", "Harding", 851.84));
-        cardHolders.Add(new cardHolder("5135893462349531", 4826, "Dawn", "Smith", 54.27));
-
-        // CSV WRITER
-        using (var writer = new StreamWriter("filePersons.csv"))
-        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        // Load card holders from CSV file and store their data in cardHolders list
+        string[] csvLines = System.IO.File.ReadAllLines("../../../filePersons.csv");
+        for (int i = 1; i < csvLines.Length; i++)
         {
-            csv.WriteRecords(cardHolders);
+            string[] rowData = csvLines[i].Split(',');
+            for (int j = 0; j < rowData.Length; j++)
+            {
+                cardHolders.Add(new cardHolder(rowData[0], int.Parse(rowData[1]), rowData[2], rowData[3], double.Parse(rowData[4], System.Globalization.CultureInfo.InvariantCulture)));
+            }
         }
 
         // Prompt user
@@ -199,9 +195,3 @@ public class cardHolder
         Console.WriteLine("Thank you! Have a nice day :)");
     }
 }
-
-// TODO:
-// move database to external file
-// add possibility to add new users
-// change directory of csv file
-// add reading from file
